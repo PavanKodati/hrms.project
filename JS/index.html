@@ -1,0 +1,57 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+     <div id="g_id_onload"
+     data-client_id="1037219380694-5aupoe2rciib07h41pivfm0talaav3lm.apps.googleusercontent.com"
+     data-context="signup"
+     data-ux_mode="popup"
+     data-callback="passBackend"
+     data-auto_prompt="false">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard"
+     data-shape="rectangular"
+     data-theme="outline"
+     data-text="signin_with"
+     data-size="large"
+     data-logo_alignment="left">
+</div>
+<script>
+
+async function postData(url = '', data = {}) {
+  const response = await fetch(url, {
+    method: 'POST',
+    mode: 'no-cors', 
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow', 
+    referrerPolicy: 'no-referrer', 
+    body: JSON.stringify(data) 
+  });
+  return response.json();
+}
+
+// postData('https://example.com/answer', { answer: 42 })
+//   .then((data) => {
+//     console.log(data); // JSON data parsed by `data.json()` call
+//   });
+
+    async function passBackend(s){
+      // let response = await postData('', {code:s.credential, authProvider:google})
+        // i need to call the backend
+        // redirect to home screen with jwt
+        //window.localStorage.setItem("token", response.accesstoken)
+        console.log(s)
+       // window.location.replace("/home.html")
+    
+    }
+</script>
+    </body>
+</html>

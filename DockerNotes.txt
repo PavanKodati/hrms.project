@@ -1,0 +1,64 @@
+Docker Notes
+
+asifraza1222
+
+Asifraza@786
+--------------------------------------
+How to Dockerize the Application With MySql Database
+
+Step1 :  
+pull the mysql image from docker hub
+docker pull mysql
+Step2:
+create a docker network to communicate Springboot app and MySql database
+docker network create springboot-mysql-net
+To verify 
+docker network ls
+
+Step3: 
+Run the mysql container in the network 
+docker run --name mysqldb --network springboot-mysql-net -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=student -e MYSQL_USER=sa -e MYSQL_PASSWORD=1234 -d mysql:latest
+To verify 
+docker ps 
+
+To run Mysql in interactive mode 
+docker exec -it [containerid] bash
+after that type 
+mysql -usa -p123
+
+Step5: 
+update application.properties file 
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://mysqldb:3306/student
+spring.datasource.username=sa
+spring.datasource.password=1234
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.show-sql=true
+server.port=9090
+spring.profiles.active=local
+
+Step6: 
+Build the spring boot docker image 
+in IntelliJ Idea terminal
+
+docker build -t springbootstarter .
+
+To verify 
+docker images
+
+
+Step7:Start the springboot container on the same network 
+
+docker run --network springboot-mysql-net --name springboot-container -p 8080:8080 -d springbootstarter
+
+
+
+
+
+
+
+
+
+
+
+

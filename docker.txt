@@ -1,0 +1,141 @@
+DOCKER:-
+
+We can  can dockerize a spring boot application by 2 ways:-
+1)By using docker file/docker network
+2)By using docker compose
+
+
+1)DOCKER REGISTRIES:-A storage and distribution system for docker images
+2)DOCKER HUB:-we can find and share docker images (official docker images like ex:mysql,redis,postgre)
+
+
+*)COMMAND PROCESSOR:-
+  1)sh 
+  2)bash
+  
+
+
+
+*)DOCKER COMMANDS:-
+1)docker -v / docker --version			//to check the version of docker
+2)docker pull (image name)				//to pull image from docker hub
+3)docker images 						//to check no of images in our local system
+4)docker ps								//to check container and image are up
+5)docker ps -a 							//to check which container is up
+6)docker run --name (any name) -d    	//to run in detach mode
+7)docker exec -it (container id/container name) sh 	//to run specific container in intereactive mood with input command
+8)docker rm (id/name of image)                              //to remove 
+9)docker stop (image name/id)								//to stop image
+10)docker logs (container name/id)							//to show logs of the container
+11)docker stop (container name/id)							//to stop the container
+12)docker exec -it (container name/id)	sh					//to run a container in shell or bash
+13)docker build -t pavan:latest .							//to create a docker image with name (in this case pavan is image name)
+14)docker run -d --name <container name> <image name>
+15)docker build .											//to build a image when we are root path 
+
+16)docker run --name mysqldb --network springboot-mysql-net 	//
+-e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=major 			//to run mysql in a container with specified root password,username,password and db 
+-e MYSQL_USER=sa -e MYSQL_PASSWORD=1234 -it mysql:latest		//
+
+
+*)Docker File:-
+	
+	FROM=its the base image where application is built
+	COPY=it is used to copy a local file like jar file in our system to the docker server
+	RUN=to run a specific file or install a specific file
+	CMD= it is used as a startup command
+	
+*)Docker Port Mapping	
+	
+	to run a container and expose port we use a command:
+	docker run -it -p 8080:8081 <image name>
+	
+	here 1)8080 is docker local port 
+		 2)8081 is exposed port where we can access the application
+		 
+*)DOCKER NETWORKING:-
+
+By default docker will give unique ip address to the unique containers based on bridge network		 
+
+If we want to use our own network then 
+	1) docker network create <network name> 		// Create a network
+	2) docker network inspect <network name>		//to get the detailed netwwork information
+	3) docker network ls							// list all networks
+	4) docker network rm <network name>				//Remove a network
+
+After Creating A Network We Need To Attach The Containers :-
+	1)docker run --name <container name> --network <network name> <image name> //giving a own container name and running the image and connecting to own network
+	2)docker network connect <network name> <container name>
+	3)docker network disconnect <network name> <container name>	 
+		 
+*)How to Dockerize the Application With MySql Database:-
+
+Step1:  
+pull the mysql image from docker hub
+docker pull mysql
+Step2:
+create a docker network to communicate Springboot app and MySql database
+docker network create springboot-mysql-net
+To verify 
+docker network ls
+
+Step3: 
+Run the mysql container in the network 
+docker run --name mysqldb --network springboot-mysql-net -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=major -e MYSQL_USER=sa -e MYSQL_PASSWORD=1234 -d mysql:latest
+To verify 
+docker ps 
+
+Step4:
+To run Mysql in interactive mode 
+docker exec -it [containerid] bash
+after that type 
+mysql -usa -p1234(or)mysql -u root -p  after click enter > enter root password
+
+Step5: 
+update application.properties file 
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://mysqldb:3306/student
+spring.datasource.username=sa
+spring.datasource.password=1234
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.show-sql=true
+server.port=9090
+spring.profiles.active=local
+
+Step6: 
+Build the spring boot docker image 
+in IntelliJ Idea terminal
+
+docker build -t springbootstarter .
+
+To verify 
+docker images
+
+
+Step7:Start the springboot container on the same network 
+
+docker run --network springboot-mysql-net --name springboot-container -p 9090:9090 -d springbootstarter
+
+docker run --network springboot-mysql-net  --name springboot-container -p 9090:9090  springbootmysql
+docker run --network springboot-mysql-net --name springboot-container -p 9090:9090  demo
+
+
+How To Run The Application In Docker:-
+	1)create a network
+	2)start mysql image in a container and attach it to the network created
+	3)update the mysql variables like usename,password,url in the application where mysql is used
+	4)write a dockerfile for the application which we turn it into image
+	5)build the image of the application
+	6)run the application image in container connected to the network which have been created
+
+
+What is a docker volume?
+
+		1)Quicker Development
+		2)Share or migrate data beteen the containers.
+		
+		host machine  ---> docker container   (vice versa)
+		 
+		 when changes made in host machine it  will reflect in container aswell and vice versa
+			since both are linked
+		

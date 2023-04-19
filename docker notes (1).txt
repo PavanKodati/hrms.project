@@ -1,0 +1,916 @@
+##########
+Docker 
+##########
+
+1) What is Docker
+2) Why Docker 
+3) What is Containerization
+4) Docker Architecture
+5) Docker Terminology
+6) Docker Installation
+7) Docker Commands
+8) Dockerfile
+9) Docker Volumes
+10) Docker Network
+11) Docker Compose
+12) Docker Swarm
+13) How to Dockerize Realtime Applications
+
+##########
+Kuberntes
+##########
+
+1) What is an Orchestration
+2) Containerization Vs Orchestration
+3) Kubernetes Introduction
+4) Kubernete Architecture
+5) Kubernetes Setup with Kubeadm
+6) Kubernetes PODS
+7) K8S services 
+	- ClusterIP
+	- NodePort
+	- LoadBalancer
+8) ReplicationController
+9) ReplicationSet
+10) Deployment
+11) AutoScaler
+12) StatefulSet
+13) ConfigMap
+14) Secrets
+15) K8S Volumes
+16) Ingress Controller
+17) HELM Charts
+18) Graphana
+19) Promethues
+20) ELK Stack
+21) AWS EKS Cluster
+22) Project Setup using K8S
+
+
+Final Project :: Maven + Git Hub + Jenkins + Sonar + Nexus + Docker + K8s
+
+
+######################
+Application Tech Stack
+#####################
+
+Frontend Components :  User Interface Components (UI Technologies)
+
+		Ex: HTML, CSS, JS, BootStrap, Angular, React JS
+
+
+Backend Components :  Business Logic Implementation
+
+		Ex: Java / .Net / Python / PHP / Node JS  etc...
+		
+
+Database Components :  Data Storing Components
+
+		Ex: Oracle / MySQL / Mongo DB / Dynamo DB etc...
+
+		
+
+-> To execute our project we need to integrate all the above components (Frontend + Backend + DB )
+
+
+=> To run our code we need to install required dependencies.
+
+			TypeScript 3.5v
+
+			Angular 9v
+
+			JDK 1.8v
+	
+			Tomcat 9v
+
+			MySQL 8.5v
+
+
+-> To run our application in multiple machines then we need to install all the above softwares in all the machines.
+
+-> There is a chance of getting compatability issues with dependencies (software versions)
+
+
+-> To overcome this problem we will use 'Docker' software
+
+
+-> Docker will take care of required dependencies for running our code (we no need to setup manually)
+
+->  Docker will package our project code and project dependencies together i.e Docker Image
+
+-> We can run Docker image in any machine, it creates Docker Container to run our application
+
+
+##############
+What is Docker?
+###############
+
+-> It is a platform to run our applications easily
+
+-> It will take care of all the dependencies which are required to run our application
+
+-> We will give instructions to Docker s/w using Dockerfile
+
+-> Using Dockerfile we will build Docker Image
+
+-> Docker Image contains application code + application dependencies
+
+-> We can run Docker image on any machine
+
+-> When we run Docker image it creates Docker Container
+
+-> Docker Container is called as Runtime instance of Docker Image
+
+-> Our application will be executed inside the Container
+
+
+++++++++Install Docker in Amazon Linux++++++++++++
+
+$ sudo yum update -y
+$ sudo yum install docker -y
+$ sudo service docker start
+
+# add user to docker group by executing below command
+$ sudo usermod -aG docker ec2-user
+
+$ docker info
+
+#Restart the session
+$ exit
+
+Then press 'R' to restart the session (This is in MobaXterm)
+
+
+##################
+Docker Architecture
+##################
+
+
+Dockerfile  : It contains set of instructions to create / build docker image
+
+Docker Image :  Docker Image is a package which contains application code + application dependencies
+
+Docker Container : When we run Docker Image it will create Docker Container to execute our application
+
+
+					build				        run
+		Dockerfile ----------------> Docker Image ----------------> Docker Container
+
+
+#####################
+What is Docker Hub?
+#####################
+
+-> It is a centralized repository where we can store and retrieve docker images
+
+			URL : https://hub.docker.com/
+
+
+
+##################
+Docker Commands
+##################
+
+docker info
+
+docker images
+
+docker ps
+
+docker pull <image-name> 
+
+docker rmi <image-name / image-id>
+
+docker run <image-name / image-id>
+
+docker rm <container-id>
+
+
+Q) Can we run the image directley without pulling ?
+
+Ans) Yes, docker daemon will pull it and it will run it.
+
+
+#########################################
+Run Docker container using hello-world image
+########################################
+
+$ docker run hello-world
+
+
+############################################
+Run Spring Boot Application using Docker Image
+#############################################
+
+
+$ docker run -p 9090:9090  ashokit/spring-boot-rest-api
+
+Note: After running this image enable 9090 port in EC2 instance security group
+
+URL TO Access :   http://ec2-vm-public-ip:9090/welcome/Raju
+
+
+
+
+
+
+
+
+1) What are the challenges in running the application
+2) What is Docker
+3) Docker Architecture
+4) Dockerfile
+5) Docker Image
+6) Docker Container
+7) Docker Commands
+8) Docker installation in Linux
+9) Docker Hub
+
+$ docker help
+$ docker images
+$ docker ps
+$ docker rmi <image>
+$ docker pull <image>
+$ docker run <image>
+$ docker rm <conainer>
+
+#########
+Dockerfile
+#########
+
+-> Dockerfile contains set of instructions to build docker image
+
+-> We will use Docker Domain Specific keywords to write Dockerfile
+
+
+FROM
+MAINTAINER
+COPY
+ADD
+RUN
+CMD
+ENTRYPONT
+ENV
+LABEL
+USER
+WORKDIR
+EXPOSE
+VOLUME
+
+
+###############
+FROM Keyword
+###############
+
+-> FROM keyword is used to specify base image to create our project image
+
+-> To create docker image for Java application we will use 'java' as base image
+
+-> To create docker image for python application we will use 'python' as base image
+
+
+FROM java:jdk-1.8.0
+
+FROM tomcat:9.2
+
+From mysql
+
+
+#############
+MAINTAINER
+##############
+
+-> It represents author of Dockerfile
+
+Ex:    MAINTAINER  Ashok <ashokitschool@gmail.com>
+
+
+###############
+COPY Keyword
+###############
+
+-> It is used to copy files/folders while creating image
+
+Ex : 
+
+COPY  <source>  <destination>
+
+Ex: COPY target/maven-web-app.war  /opt/tomcat/webapps/maven-web-app.war
+
+#############
+ADD Keyword
+##############
+
+-> It is also used to copy the files while creating image
+
+-> ADD keyword can download files also from remote location using http
+
+EX :  
+
+ADD  <source>  <destination>
+
+ADD <url-to-download>  <destination>
+
+
+##############
+RUN Keyword
+#############
+
+-> It is used to execute commands on top of our base image
+
+-> RUN command instructions will execute while creating our image
+
+-> We can write multiple RUN instructions in Dockerfile (they will execute in order top to bottom)
+
+
+Ex:
+
+RUN mkdir demo
+
+RUN  yum install git
+
+RUN yum install maven
+
+
+##############
+CMD Keyword
+#############
+
+-> CMD keyword is used to execute commands
+
+-> CMD commands will execute while creating container
+
+
+EX:
+
+CMD sudo start tomcat
+
+-> We can write multiple CMD instructions in Dockerfile but Docker will process only the last CMD instruction
+
+Note: There is no use of writing multiple CMD instructions
+
+
+
+
+################
+Sample Dockerfile
+###################
+
+FROM ubuntu
+MAINTAINER Ashok <ashokitschool@gmail.com>
+RUN echo "run instruction-1"
+RUN echo "run instruction-2"
+CMD echo "cmd instruction-1"
+CMD echo "cmd instruction-2"
+RUN echo "run instruction-3"
+
+
+# Build docker image using Dockerfile
+
+$ docker build -t <image-name> .
+
+# Check docker images
+
+$ docker images
+
+# Run Docker image
+
+$ docker run <image-name>
+
+
+# Creating docker image using customer dockerfile
+
+$ docker build -f <file-name> -t <image-name> .
+
+
+# Store docker image into docker hub
+
+$ docker login
+
+$ docker tag <image-name> <tag-name>
+
+$ docker push <tag-name>
+
+
+#####################
+ENTRYPOINT Keyword
+#####################
+
+-> It is used to execute instructions while creating container
+
+
+NOTE: CMD instructions we can override in runtime where as ENTRYPOINT instructions we can't override
+
+
+EX:
+
+ENTRYPOINT [  "echo", "Welcome to Ashok IT"  ]
+
+ENTRYPOINT [  "java" , "-jar", "target/spring-boot-app.jar"  ] 
+
+
+####################
+WORKDIR Keyword
+####################
+
+-> It is used to set working directory for a image / container
+
+Ex:
+
+WORKDIR <dir-path>
+
+-> The instructions which are available after WORKDIR those instructions will be processed from given working directory
+
+
+#############
+ENV Keyword
+#############
+
+-> It is used to set Environment variables
+
+EX:
+
+
+ENV <key>  <value>
+
+
+###############
+LABEL Keyword
+###############
+
+-> It is used to represent data in key-value format
+
+-> It is used to write METADATA in docker file
+
+Ex:
+
+LABEL  branchName	release
+
+
+#############
+ARG Keyword
+#############
+
+-> It is used to avoid hard coded values in docker file
+
+Ex:
+
+ARG  branch=develop
+LABEL branch $branch
+
+Note: We can pass ARG value in runtime (while creating docker image)
+
+$ docker build -t <image-name> --build-arg   branch=release
+
+
+###############
+USER Keyword
+##############
+
+-> It is used to set USER for image or conatiner to execute further instructions
+
+
+Note: After USER instruction, remaining instructions will be processed with given USER
+
+
+##################
+EXPOSE Keyword
+##################
+
+-> It is used to specify on which PORT number our container is running
+
+Note: It is just for documentation to understand Container PORT Number
+
+
+EX:
+
+EXPOSE 8080
+
+
+#################
+VOLUME Keyword
+##################
+
+-> It is used for data storage
+
+
+
+########################
+Dockerizing Java Web App
+#######################
+
+1) Install git client
+
+$ sudo yum install git
+
+2) Install maven
+
+$ sudo yum install maven
+
+3) clone git hub project
+
+$ git clone <repo-url>
+
+4) Navigate into project directory and Build Maven project using maven goals
+
+$ mvn clean package
+
+5) Create Dockerfile
+
+$ vi Dockerfile
+
+FROM tomcat:8.5.4-jre8
+MAINTAINER Ashok <ashokitschool@gmail.com>
+COPY target/java-web-app-1.0.war /usr/local/tomcat/webapps/java-web-app.war
+EXPOSE 8080
+
+6) Build Docker image
+$ docker build -t <image-name> .
+
+
+7) Check docker image
+$ docker images
+
+
+8) Run docker image
+
+$ docker run -d -p 8080:8080 <image-name>
+
+
+
+##############################
+Dockerize Spring Boot Application
+##############################
+
+-> Java web applications will be deployed as 'war' file
+
+-> Java Spring Boot applications will be deployed as 'jar' file
+
+
+FROM java:8-jdk-alpine
+
+COPY ./target/spring-boot-docker-app.jar /usr/app/
+
+WORKDIR /usr/app
+
+ENTRYPOINT [ "java", "-jar", "spring-boot-docker-app.jar" ]
+
+
+
+
+
+#######################
+Docker image commands
+#######################
+
+# Pulling docker image
+
+$ docker pull <image-name>
+
+# Display docker images
+
+$ docker images
+
+# Delete Docker image
+
+$ docker rmi <image-name>
+
+# Building Docker image
+
+$ docker build -t <image-name> .
+
+# Tagging docker image
+
+$ docker tag <image-name>  <tag-name>
+
+# Delete all images which are not attached to containers
+
+$ docker system prune -a
+
+
+##########################
+Docker Container Commands
+##########################
+
+
+# Display list of running containers
+
+$ docker container ls
+
+# To see list of running and stopped containers
+
+$ docker ps -a
+
+# Start the container
+
+$ docker start <container-name/container-id>
+
+# Stop the container
+
+$ docker stop <container-name / container-id>
+
+# Delete Stopped Container
+
+$ docker rm  <container-name / container-id>
+
+# Delete running container
+
+$ docker rm -f <container-name/container-id>
+
+# Stop all running containers
+
+$ docker stop $(docker ps -aq)
+
+# Restart all containers
+
+$ docker restart $(docker ps -aq)
+
+# Remove all containers (running & stopped)
+
+$ docker rm -f $(docker ps -aq)
+
+
+##################
+Docker Networking
+##################
+
+-> Networking is all about communication among the processes
+
+-> Docker network is used to provide isolation for Docker containers
+
+Note: One Docker container can be linked to any no.of networks
+
+
++++++++++++++++++++++++++++++
+Advantages of Docker Networking
++++++++++++++++++++++++++++++
+
+1) We can maintain isolated environment
+
+2) Fast Delivery
+
+3) Application Portability
+
+
+-> When docker s/w installed we will get below 3 default networks
+
+			1) host
+			2) bridge
+			3) none
+
+# We can check docker networks using below command
+
+$ docker network ls
+
+
+
++++++++++++++++++
+Network Drivers
++++++++++++++++++
+
+1) Bridge
+2) Host
+3) None
+4) Overlay
+5) Macvlan
+
+
+
+-> Bridge is the default driver created in docker machine
+-> When application running on standalone conatiner then Bridge driver is very userful
+
+-> Host driver is also used for Standalone containers
+
+-> None means containers will not have access to externa networks
+-> If we want to disble networking for a container then we will use None driver
+
+-> Overlay driver is used for Cluster Environment
+
+-> Macvlan driver lets you assign a MAC address to a container
+
+
+++++++++++++++++++++++++++++
+Docker Networking Commands
+++++++++++++++++++++++++++++
+
+
+# List docker networks
+# docker network ls
+
+# Create docker network
+$ docker network create --driver bridge ashokit-nw
+
+Note: If we don't specify the driver then it will take 'bridge' driver by default
+
+# Running container on user-defined network
+
+$ docker run --name nginx -d --network ashokit-nw -p 80:80 nginx
+
+# inspect the network
+
+$ docker network inspect ashokit-nw
+
+
+########################
+Container Communication
+#######################
+
+# Run first container
+$ docker run --name nginx1 -d --network ashokit-nw -p 9090:80 nginx
+
+# Run second container
+$ docker run --name nginx2 -d --network ashokit-nw -p 9091:80 nginx
+
+# You can get docker container ip address with below command 
+$ docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'  <container_name_or_id>
+
+
+# get into nginx1 container
+
+$ docker exec -it nginx1 /bin/bash
+
+$ apt-get update
+$ apt-get install iputils-ping
+$ ping <nginx2-ip>
+
+
+# get into nginx2 container
+
+$ docker exec -it nginx2 /bin/bash
+
+$ apt-get update
+$ apt-get install iputils-ping
+$ ping <nginx1-ip>
+
+Note: If we are able to ping from container to another container that means our networkg is working perfectley
+
+
+
+
+###############
+Docker Volumes
+###############
+
+-> Docker containers are stateless by default
+
+-> Once we delete the docker container we will loose the data that got generated by docker container
+
+-> We can make Docker containers statefull using 'Docker Volumes' concept
+
+Note: Statefull means saving the data permanentley which got generated by container
+
+
+Usecase: If we delete mysql container we should not loose the customers data which is stored in the mysql database
+
+
+# Display docker volumes
+
+$ docker volume ls
+
+# Create docker volume
+
+$ docker volume create <volume-name>
+
+# Remove Docker Volume
+
+$ docker volume rm <volume-name>
+
+# Remove All Docker Volumes
+
+$ docker volume prune
+
+
++++++++++++++++++
+Volumes Lab Task
++++++++++++++++++
+
+# Attach volume to docker container
+$ docker run --name webapp1 -mount source=ashokit-vol,destination=/usr/share/nginx/html -p 80:80 nginx
+
+# connect to webapp1 container
+$ docker exec -it webapp1 bash
+
+# Modify index.html file
+
+$ cd /usr/share/html
+$ echo "Hi, this is my page" > index.html
+
+Note: Access public ip (we can see our website)
+
+$ Remove webapp1 contianer
+$ docker rm -f webapp1
+
+# Run webapp2 container
+$ docker run --name webapp2 -mount source=ashokit-vol,destination=/usr/share/nginx/html -p 80:80 nginx
+
+Note: Access public ip (we can see our website)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

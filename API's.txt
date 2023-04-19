@@ -1,0 +1,610 @@
+
+
+1)Employee and projects
+
+API:3.86.30.212:8080/employee/1(Get Call)
+
+Responce:
+{
+    "id": "1",
+    "email": "pavan.kodati@fissionlabs.com",
+    "name": "pavan",
+    "status": "active",
+    "flId": "1666",
+    "role": "PM",
+    "date": "2023-01-19T07:20:41.483+00:00",
+    "projects": [
+        {
+            "id": "1",
+            "projectName": "thread",
+            "description": null,
+            "startDate": "2022-12-25T00:00:00.000+00:00",
+            "endDate": "2030-12-05T00:00:00.000+00:00",
+            "status": "active",
+            "logo": "s3"
+        },
+        {
+            "id": "2",
+            "projectName": "jj",
+            "description": null,
+            "startDate": "2022-12-25T00:00:00.000+00:00",
+            "endDate": "2030-12-05T00:00:00.000+00:00",
+            "status": "active",
+            "logo": "s3"
+        }
+    ]
+}
+
+2)Project and component or project rating (Get Call)
+
+query param: month , year, projectId
+
+API:3.86.30.212:8080/project/1?month=01&year=2023
+
+->In case of Project and component no rating present for month and year
+Responce:
+{
+    "project": {
+        "id": "1",
+        "projectName": "thread",
+        "description": null,
+        "startDate": "2022-12-25T00:00:00.000+00:00",
+        "endDate": "2030-12-05T00:00:00.000+00:00",
+        "status": "active",
+        "logo": "s3",
+        "component": [
+            {
+                "id": "1",
+                "componentName": "schedule",
+                "status": "active"
+            },
+            {
+                "id": "2",
+                "componentName": "resourcing",
+                "status": "active"
+            },
+            {
+                "id": "3",
+                "componentName": "Utilization/budget",
+                "status": "active"
+            },
+            {
+                "id": "4",
+                "componentName": "risks",
+                "status": "active"
+            },
+            {
+                "id": "5",
+                "componentName": "quality",
+                "status": "active"
+            },
+            {
+                "id": "6",
+                "componentName": "scope",
+                "status": "active"
+            },
+            {
+                "id": "7",
+                "componentName": "changemgt",
+                "status": "active"
+            },
+            {
+                "id": "8",
+                "componentName": "issues",
+                "status": "active"
+            },
+            {
+                "id": "9",
+                "componentName": "overall",
+                "status": "active"
+            }
+        ]
+    },
+    "projectRating": null
+}
+
+
+
+
+
+
+In case of projectRating present for respective month and year
+->Responce:
+{
+    "project": null,
+    "projectRating": {
+        "id": "9f290e58-80e9-447b-af12-94d7ccbaa42a",
+        "rating": null,
+        "ratingMonth": 1,
+        "ratingYear": 2023,
+        "ratings": [
+            {
+                "id": "21925c34-f9a3-4116-911e-d29c70333353",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "2",
+                    "componentName": "resourcing",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "406356c4-6883-4ae5-bfc6-bc235c7f9db3",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "4",
+                    "componentName": "risks",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "4caa8504-dfcc-4b25-a4a7-4249a2a22d18",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "6",
+                    "componentName": "scope",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "914a2736-8bcf-46ac-9d7a-5e9e1bdc2145",
+                "componentRating": 5,
+                "notes": "yes",
+                "component": {
+                    "id": "3",
+                    "componentName": "Utilization/budget",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "926d855c-b9c9-4d86-8ba7-67718cfa90fb",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "5",
+                    "componentName": "quality",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "c58c1075-53dd-49c8-a548-2be89fa649bc",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "1",
+                    "componentName": "schedule",
+                    "status": "active"
+                }
+            }
+        ],
+        "comment": "ok"
+    }
+}
+
+
+3)Login jwt token (Post CAll)
+
+API:ec2-3-86-30-212.compute-1.amazonaws.com:8080/social
+
+payload:
+
+example:
+{
+"credentials":
+"provider": "Google"
+}
+
+responce: access token in header section
+
+acesses token: token
+
+
+
+
+4)project rating  (Post call)
+
+Api:3.86.30.212:8080/project/1/projectrating
+
+Query param: project Id
+
+payload:
+{
+{
+    "ratingMonth":"1",
+    "ratingYear":2023,
+    "comment":"ok",
+    "ratings":[
+		{
+            "componentRating":4,
+            "notes":"yes",
+            "component":{
+                "id":1
+            }
+        },
+        {
+             "componentRating":4,
+            "notes":"yes",
+            "component":{
+                "id":2
+            }
+        },{
+             "componentRating":5,
+            "notes":"yes",
+            "component":{
+                "id":3
+            }
+        },
+        {
+             "componentRating":4,
+            "notes":"yes",
+            "component":{
+                "id":4
+            }
+        },
+        {
+             "componentRating":4,
+            "notes":"yes",
+            "component":{
+                "id":5
+            }
+        },
+        {
+             "componentRating":4,
+            "notes":"yes",
+            "component":{
+                "id":6
+            }
+        }
+    ]
+}
+}
+
+responce:ok
+
+
+
+
+Web Api
+
+1)Login jwt token (Post CAll)
+
+API:ec2-3-86-30-212.compute-1.amazonaws.com:8080/social
+
+payload:
+
+example:
+{
+"credentials":
+"provider": "Google"
+}
+
+responce: access token in header section
+
+acesses token: token
+
+
+
+2)get All projects
+
+API:ec2-3-86-30-212.compute-1.amazonaws.com:8080/projects?month=01&year=2023
+
+query param: month and year
+
+responce:[
+    {
+        "id": "9f290e58-80e9-447b-af12-94d7ccbaa42a",
+        "ratingMonth": 1,
+        "ratingYear": 2023,
+        "ratings": [
+            {
+                "id": "21925c34-f9a3-4116-911e-d29c70333353",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "2",
+                    "componentName": "resourcing",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "406356c4-6883-4ae5-bfc6-bc235c7f9db3",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "4",
+                    "componentName": "risks",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "4caa8504-dfcc-4b25-a4a7-4249a2a22d18",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "6",
+                    "componentName": "scope",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "914a2736-8bcf-46ac-9d7a-5e9e1bdc2145",
+                "componentRating": 5,
+                "notes": "yes",
+                "component": {
+                    "id": "3",
+                    "componentName": "Utilization/budget",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "926d855c-b9c9-4d86-8ba7-67718cfa90fb",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "5",
+                    "componentName": "quality",
+                    "status": "active"
+                }
+            },
+            {
+                "id": "c58c1075-53dd-49c8-a548-2be89fa649bc",
+                "componentRating": 4,
+                "notes": "yes",
+                "component": {
+                    "id": "1",
+                    "componentName": "schedule",
+                    "status": "active"
+                }
+            }
+        ],
+        "project": {
+            "id": "1",
+            "projectName": "thread",
+            "description": null,
+            "startDate": "2022-12-25T00:00:00.000+00:00",
+            "endDate": "2030-12-05T00:00:00.000+00:00",
+            "status": "active",
+            "logo": "s3"
+        },
+        "comment": "ok"
+    },
+    {
+        "id": null,
+        "ratingMonth": 1,
+        "ratingYear": 2023,
+        "ratings": null,
+        "project": {
+            "id": "2",
+            "projectName": "jj",
+            "description": null,
+            "startDate": "2022-12-25T00:00:00.000+00:00",
+            "endDate": "2030-12-05T00:00:00.000+00:00",
+            "status": "active",
+            "logo": "s3"
+        },
+        "comment": null
+    }
+]
+
+
+
+3)get project rating:
+
+
+API:ec2-3-86-30-212.compute-1.amazonaws.com:8080/project/1/projectrating
+
+Query param:month and year
+
+
+if rating present for that year 
+responce:
+
+{
+    "id": "061b0a45-a55e-45f8-a939-5fd59b2d6ccb",
+    "rating": null,
+    "ratingMonth": 3,
+    "ratingYear": 2023,
+    "ratings": [
+        {
+            "id": "00d5f0a1-9556-4737-862e-fb4ea15de617",
+            "componentRating": 4,
+            "notes": "yes",
+            "component": {
+                "id": "1",
+                "componentName": "schedule",
+                "status": "active"
+            }
+        },
+        {
+            "id": "053fd8e3-a4e1-4c4a-9c3b-385b60330cc6",
+            "componentRating": 5,
+            "notes": "yes",
+            "component": {
+                "id": "3",
+                "componentName": "Utilization/budget",
+                "status": "active"
+            }
+        },
+        {
+            "id": "2659310c-ade1-4794-8703-14e93e4e1757",
+            "componentRating": 4,
+            "notes": "yes",
+            "component": {
+                "id": "8",
+                "componentName": "issues",
+                "status": "active"
+            }
+        },
+        {
+            "id": "5029f8e8-e9ba-4358-8ed1-db8b35a02719",
+            "componentRating": 4,
+            "notes": "yes",
+            "component": {
+                "id": "4",
+                "componentName": "risks",
+                "status": "active"
+            }
+        },
+        {
+            "id": "5c75d4ae-08df-4fa3-94bf-a6189297dd8f",
+            "componentRating": 4,
+            "notes": "yes",
+            "component": {
+                "id": "7",
+                "componentName": "changemgt",
+                "status": "active"
+            }
+        },
+        {
+            "id": "6f2db5a2-9156-4c61-8e06-4bf126e997fe",
+            "componentRating": 4,
+            "notes": "yes",
+            "component": {
+                "id": "5",
+                "componentName": "quality",
+                "status": "active"
+            }
+        },
+        {
+            "id": "7b8e7375-e829-425b-bdf9-a2396a9c31ef",
+            "componentRating": 4,
+            "notes": "yes",
+            "component": {
+                "id": "6",
+                "componentName": "scope",
+                "status": "active"
+            }
+        },
+        {
+            "id": "87035272-73a2-4072-a00a-1e9b17846e42",
+            "componentRating": 4,
+            "notes": "yes",
+            "component": {
+                "id": "9",
+                "componentName": "overall",
+                "status": "active"
+            }
+        },
+        {
+            "id": "bbb8a91b-4b2c-4de7-8f7a-59b05b3a3806",
+            "componentRating": 4,
+            "notes": "yes",
+            "component": {
+                "id": "2",
+                "componentName": "resourcing",
+                "status": "active"
+            }
+        }
+    ],
+    "status": "submitted",
+    "comment": "ok"
+}
+
+
+if rating not present for that month then 
+responce:
+{
+    "id": null,
+    "rating": null,
+    "ratingMonth": null,
+    "ratingYear": null,
+    "ratings": [
+        {
+            "id": null,
+            "componentRating": null,
+            "notes": null,
+            "component": {
+                "id": "1",
+                "componentName": "schedule",
+                "status": "active"
+            }
+        },
+        {
+            "id": null,
+            "componentRating": null,
+            "notes": null,
+            "component": {
+                "id": "2",
+                "componentName": "resourcing",
+                "status": "active"
+            }
+        },
+        {
+            "id": null,
+            "componentRating": null,
+            "notes": null,
+            "component": {
+                "id": "3",
+                "componentName": "Utilization/budget",
+                "status": "active"
+            }
+        },
+        {
+            "id": null,
+            "componentRating": null,
+            "notes": null,
+            "component": {
+                "id": "4",
+                "componentName": "risks",
+                "status": "active"
+            }
+        },
+        {
+            "id": null,
+            "componentRating": null,
+            "notes": null,
+            "component": {
+                "id": "5",
+                "componentName": "quality",
+                "status": "active"
+            }
+        },
+        {
+            "id": null,
+            "componentRating": null,
+            "notes": null,
+            "component": {
+                "id": "6",
+                "componentName": "scope",
+                "status": "active"
+            }
+        },
+        {
+            "id": null,
+            "componentRating": null,
+            "notes": null,
+            "component": {
+                "id": "7",
+                "componentName": "changemgt",
+                "status": "active"
+            }
+        },
+        {
+            "id": null,
+            "componentRating": null,
+            "notes": null,
+            "component": {
+                "id": "8",
+                "componentName": "issues",
+                "status": "active"
+            }
+        },
+        {
+            "id": null,
+            "componentRating": null,
+            "notes": null,
+            "component": {
+                "id": "9",
+                "componentName": "overall",
+                "status": "active"
+            }
+        }
+    ],
+    "status": "no rating submitted for this month",
+    "comment": null
+}
+
+
+

@@ -1,0 +1,8 @@
+
+ENV for db:
+
+username - root 
+password - dee1bp0EF1E58ac877
+Host name  - mysqldb
+Host address - projecthealth-hrms.fissionlabs.com
+Host public ip - 3.210.83.64

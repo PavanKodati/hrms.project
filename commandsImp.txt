@@ -1,0 +1,6 @@
+to check which are active/running--->  ps -ef|grep java 
+
+to kill ---> kill -9 25769(active number)
+
+
+run jar file ---> java -jar jarfile >log.txt & 
